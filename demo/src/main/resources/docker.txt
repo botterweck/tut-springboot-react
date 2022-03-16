@@ -1,1 +1,10 @@
 docker run --name demo-postgres-alpine -e POSTGRES_PASSWORD=PASSWORD -p 5432:5432 -d postgres:alpine
+
+docker exec -it demo-postgres-alpine /bin/bash
+
+psql -U postgres -W
+
+CREATE DATABASE springreactdemo;
+
+\c springreactdemo
+\d
