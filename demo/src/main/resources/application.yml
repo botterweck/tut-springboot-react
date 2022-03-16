@@ -1,3 +1,10 @@
 server:
   servlet:
     context-path: /api
+
+app:
+  datasource:
+    jdbc-url: jdbc:postgresql://localhost:7432/springreactdemo
+    username: postgres
+    password: 9mY8uk9RAqMbTG5L
+    pool-size: 30
