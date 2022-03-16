@@ -1,0 +1,1 @@
+docker run --name demo-postgres-alpine -e POSTGRES_PASSWORD=PASSWORD -p 5432:5432 -d postgres:alpine
