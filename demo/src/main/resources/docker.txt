@@ -1,4 +1,4 @@
-docker run --name demo-postgres-alpine -e POSTGRES_PASSWORD=PASSWORD -p 5432:5432 -d postgres:alpine
+docker run --name demo-postgres-alpine -e POSTGRES_PASSWORD=9mY8uk9RAqMbTG5L -p 7432:5432 -d postgres:alpine
 
 docker exec -it demo-postgres-alpine /bin/bash
 
