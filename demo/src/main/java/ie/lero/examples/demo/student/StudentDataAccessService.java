@@ -1,6 +1,7 @@
 package ie.lero.examples.demo.student;
 
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,7 +16,7 @@ public class StudentDataAccessService {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public List<Student> selectAllStudents() {
+    List<Student> selectAllStudents() {
         String sql =
                 "SELECT student_id, " +
                         "first_name, " +
@@ -24,12 +25,16 @@ public class StudentDataAccessService {
                         "gender " +
                         "FROM student";
 
-        return jdbcTemplate.query(sql, (resultSet, i) -> {
+        return jdbcTemplate.query(sql, mapStudentFromDb());
+    }
+
+    private RowMapper<Student> mapStudentFromDb() {
+        return (resultSet, i) -> {
             String studentIdStr = resultSet.getString("student_id");
             UUID studentId = UUID.fromString(studentIdStr);
 
             String firstName = resultSet.getString("first_name");
-            String lastName = resultSet.getString("lastName");
+            String lastName = resultSet.getString("last_name");
             String email = resultSet.getString("email");
             String genderStr = resultSet.getString("gender").toUpperCase();
             Student.Gender gender = Student.Gender.valueOf(genderStr);
@@ -42,6 +47,6 @@ public class StudentDataAccessService {
                     gender
             );
 
-        });
+        };
     }
 }
