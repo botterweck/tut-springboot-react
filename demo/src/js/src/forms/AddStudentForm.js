@@ -8,8 +8,7 @@ const tagStyle = {backgroundColor: '#f50', color: 'white', ...inputBottomMargin}
 class AddStudentForm extends Component {
     render() {
 
-        return (
-            <Formik
+        return (<Formik
                 initialValues={{firstName: '', lastName: '', email: '', gender: ''}}
                 validate={values => {
                     const errors = {};
@@ -21,9 +20,7 @@ class AddStudentForm extends Component {
                     }
                     if (!values.email) {
                         errors.email = 'Email is required.';
-                    } else if (
-                        !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
-                    ) {
+                    } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)) {
                         errors.email = 'Invalid email address.';
                     }
                     if (!values.gender) {
@@ -41,16 +38,9 @@ class AddStudentForm extends Component {
                 }}
             >
                 {({
-                      values,
-                      errors,
-                      touched,
-                      handleChange,
-                      handleBlur,
-                      handleSubmit,
-                      isSubmitting,
+                      values, errors, touched, handleChange, handleBlur, handleSubmit, isSubmitting, submitForm, isValid
                       /* and other goodies */
-                  }) => (
-                    <form onSubmit={handleSubmit}>
+                  }) => (<form onSubmit={handleSubmit}>
                         <Input
                             style={inputBottomMargin}
                             name="firstName"
@@ -59,8 +49,7 @@ class AddStudentForm extends Component {
                             value={values.firstName}
                             placeholder='First name'
                         />
-                        {errors.firstName && touched.firstName &&
-                            <Tag style={tagStyle}>{errors.firstName}</Tag>}
+                        {errors.firstName && touched.firstName && <Tag style={tagStyle}>{errors.firstName}</Tag>}
                         <Input
                             style={inputBottomMargin}
                             name="lastName"
@@ -69,8 +58,7 @@ class AddStudentForm extends Component {
                             value={values.lastName}
                             placeholder='Last name'
                         />
-                        {errors.lastName && touched.lastName &&
-                            <Tag style={tagStyle}>{errors.lastName}</Tag>}
+                        {errors.lastName && touched.lastName && <Tag style={tagStyle}>{errors.lastName}</Tag>}
                         <Input
                             style={inputBottomMargin}
                             name="email"
@@ -80,8 +68,7 @@ class AddStudentForm extends Component {
                             value={values.email}
                             placeholder='Email'
                         />
-                        {errors.email && touched.email &&
-                            <Tag style={tagStyle}>{errors.email}</Tag>}
+                        {errors.email && touched.email && <Tag style={tagStyle}>{errors.email}</Tag>}
                         <Input
                             style={inputBottomMargin}
                             name="gender"
@@ -90,18 +77,18 @@ class AddStudentForm extends Component {
                             value={values.gender}
                             placeholder='Gender'
                         />
-                        {errors.gender && touched.gender &&
-                            <Tag style={tagStyle}>{errors.gender}</Tag>}
+                        {errors.gender && touched.gender && <Tag style={tagStyle}>{errors.gender}</Tag>}
 
                         <p>
-                            <Button type="submit" disabled={isSubmitting}>
+                            <Button
+                                onClick={() => submitForm()}
+                                type="submit"
+                                disabled={isSubmitting || (touched && !isValid)}>
                                 Submit
                             </Button>
                         </p>
-                    </form>
-                )}
-            </Formik>
-        );
+                    </form>)}
+            </Formik>);
 
     }
 }
