@@ -9,15 +9,26 @@ class AddStudentForm extends Component {
 
         return (
             <Formik
-                initialValues={{email: '', password: ''}}
+                initialValues={{firstName: '', lastName: '', email: '', gender: ''}}
                 validate={values => {
                     const errors = {};
+                    if(!values.firstName) {
+                        errors.firstName = 'First name is required.';
+                    }
+                    if(!values.lastName) {
+                        errors.lastName = 'Last name is required.';
+                    }
                     if (!values.email) {
                         errors.email = 'Required';
                     } else if (
                         !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
                     ) {
                         errors.email = 'Invalid email address';
+                    }
+                    if(!values.gender) {
+                        errors.gender = 'Gender is required.';
+                    } else if (!['MALE', 'male', 'FEMALE', 'female'].includes(values.gender)) {
+                        errors.gender = 'Gender must be one of: MALE, male, FEMALE, female';
                     }
                     return errors;
                 }}
@@ -72,7 +83,7 @@ class AddStudentForm extends Component {
                             name="gender"
                             onChange={handleChange}
                             onBlur={handleBlur}
-                            value={values.email}
+                            value={values.gender}
                             placeholder='Gender'
                         />
                         {errors.gender && touched.gender && errors.gender}
