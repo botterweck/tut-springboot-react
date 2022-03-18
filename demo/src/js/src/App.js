@@ -111,10 +111,7 @@ class App extends Component {
                         onCancel={this.closeAddStudentModalVisible}
                         width={1000}
                     >
-                        <h1>Modal</h1>
-
-                        <AddStudentForm />
-
+                        <AddStudentForm/>
                     </Modal>
                     <Footer
                         numberOfStudents={students.length}
