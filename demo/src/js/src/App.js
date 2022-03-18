@@ -3,25 +3,27 @@ import Container from './Container';
 import Footer from './Footer';
 import './App.css';
 import {getAllStudents} from './client';
-import { LoadingOutlined } from '@ant-design/icons';
+import {LoadingOutlined} from '@ant-design/icons';
 import {
     Table,
     Avatar,
-    Spin
+    Spin,
+    Modal
 } from 'antd';
 
-const getIndicatorIcon = () => <LoadingOutlined style={{ fontSize: 32 }} />;
+const getIndicatorIcon = () => <LoadingOutlined style={{fontSize: 32}}/>;
 
 class App extends Component {
 
     state = {
         students: [],
-        isFetching: false
+        isFetching: false,
+        isAddStudentModalVisible: false
     }
 
-    componentDidMount() {
-        this.fetchStudents();
-    }
+    openAddStudentModalVisible = () => this.setState({isAddStudentModalVisible: true});
+
+    closeAddStudentModalVisible = () => this.setState({isAddStudentModalVisible: false});
 
     fetchStudents = () => {
         this.setState({
@@ -40,15 +42,18 @@ class App extends Component {
             );
     }
 
+    componentDidMount() {
+        this.fetchStudents();
+    }
 
     render() {
-        const {students, isFetching} = this.state;
+        const {students, isFetching, isAddStudentModalVisible} = this.state;
 
 
         if (isFetching) {
             return (
                 <Container>
-                    <Spin indicator={getIndicatorIcon()} />
+                    <Spin indicator={getIndicatorIcon()}/>
                 < /Container>
             );
         }
@@ -59,7 +64,7 @@ class App extends Component {
                     title: '',
                     key: 'avatar',
                     render: (text, student) => (
-                        <Avatar size="large" >
+                        <Avatar size="large">
                             {`${student.firstName.charAt(0).toUpperCase()}${student.lastName.charAt(0).toUpperCase()}`}
                         </Avatar>
                     )
@@ -98,7 +103,20 @@ class App extends Component {
                         columns={columns}
                         pagination={false}
                         rowKey='studentId'/>
-                    <Footer numberOfStudents={students.length}/>
+                    <Modal
+                        title="Add new student"
+                        visible={isAddStudentModalVisible}
+                        onOk={this.closeAddStudentModalVisible}
+                        onCancel={this.closeAddStudentModalVisible}
+                        width={1000}
+                    >
+                        <h1>Modal</h1>
+
+                    </Modal>
+                    <Footer
+                        numberOfStudents={students.length}
+                        handleAddStudentClickEvent={this.openAddStudentModalVisible}
+                    />
                 </Container>
             );
         }
