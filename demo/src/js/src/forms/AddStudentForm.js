@@ -1,8 +1,9 @@
 import {Formik} from "formik";
 import {Component} from "react";
-import {Input, Button} from "antd";
+import {Input, Button, Tag} from "antd";
 
 const inputBottomMargin = {marginBottom: '5px'};
+const tagStyle = {backgroundColor: '#f50', color: 'white', ...inputBottomMargin};
 
 class AddStudentForm extends Component {
     render() {
@@ -12,20 +13,20 @@ class AddStudentForm extends Component {
                 initialValues={{firstName: '', lastName: '', email: '', gender: ''}}
                 validate={values => {
                     const errors = {};
-                    if(!values.firstName) {
+                    if (!values.firstName) {
                         errors.firstName = 'First name is required.';
                     }
-                    if(!values.lastName) {
+                    if (!values.lastName) {
                         errors.lastName = 'Last name is required.';
                     }
                     if (!values.email) {
-                        errors.email = 'Required';
+                        errors.email = 'Email is required.';
                     } else if (
                         !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
                     ) {
-                        errors.email = 'Invalid email address';
+                        errors.email = 'Invalid email address.';
                     }
-                    if(!values.gender) {
+                    if (!values.gender) {
                         errors.gender = 'Gender is required.';
                     } else if (!['MALE', 'male', 'FEMALE', 'female'].includes(values.gender)) {
                         errors.gender = 'Gender must be one of: MALE, male, FEMALE, female';
@@ -58,7 +59,8 @@ class AddStudentForm extends Component {
                             value={values.firstName}
                             placeholder='First name'
                         />
-                        {errors.firstName && touched.firstName && errors.firstName}
+                        {errors.firstName && touched.firstName &&
+                            <Tag style={tagStyle}>{errors.firstName}</Tag>}
                         <Input
                             style={inputBottomMargin}
                             name="lastName"
@@ -67,7 +69,8 @@ class AddStudentForm extends Component {
                             value={values.lastName}
                             placeholder='Last name'
                         />
-                        {errors.lastName && touched.lastName && errors.lastName}
+                        {errors.lastName && touched.lastName &&
+                            <Tag style={tagStyle}>{errors.lastName}</Tag>}
                         <Input
                             style={inputBottomMargin}
                             name="email"
@@ -77,7 +80,8 @@ class AddStudentForm extends Component {
                             value={values.email}
                             placeholder='Email'
                         />
-                        {errors.email && touched.email && errors.email}
+                        {errors.email && touched.email &&
+                            <Tag style={tagStyle}>{errors.email}</Tag>}
                         <Input
                             style={inputBottomMargin}
                             name="gender"
@@ -86,10 +90,14 @@ class AddStudentForm extends Component {
                             value={values.gender}
                             placeholder='Gender'
                         />
-                        {errors.gender && touched.gender && errors.gender}
-                        <Button type="submit" disabled={isSubmitting}>
-                            Submit
-                        </Button>
+                        {errors.gender && touched.gender &&
+                            <Tag style={tagStyle}>{errors.gender}</Tag>}
+
+                        <p>
+                            <Button type="submit" disabled={isSubmitting}>
+                                Submit
+                            </Button>
+                        </p>
                     </form>
                 )}
             </Formik>
