@@ -5,6 +5,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.UUID;
 
 @Service
@@ -28,6 +29,25 @@ public class StudentDataAccessService {
         return jdbcTemplate.query(sql, mapStudentFromDb());
     }
 
+    int insertStudent(UUID studentId, Student student) {
+        String sql = "" +
+                "INSERT INTO student (" +
+                "student_id, " +
+                "first_name, " +
+                "last_name, " +
+                "email," +
+                "gender) " +
+                "VALUES (?, ?, ?, ?, ?)";
+        return jdbcTemplate.update(sql,
+                studentId,
+                student.getFirstName(),
+                student.getLastName(),
+                student.getEmail(),
+                student.getGender().name().toUpperCase()
+        );
+    }
+
+
     private RowMapper<Student> mapStudentFromDb() {
         return (resultSet, i) -> {
             String studentIdStr = resultSet.getString("student_id");
@@ -50,7 +70,4 @@ public class StudentDataAccessService {
         };
     }
 
-    public int insertStudent(UUID newStudentId, Student student) {
-        return 0;
-    }
 }
